@@ -1,36 +1,38 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<div align="center">
+  <h2>Next-tRPC boilerplate</h2></hr>
+  <p align="center">
+    <img src="https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=nextdotjs&logoColor=white" alt="Next.js badge">
+    <img src="https://img.shields.io/badge/-tRPC-2596BE?style=flat&logo=trpc&logoColor=white" alt="tRPC badge">
+    <img src="https://img.shields.io/badge/Prisma-2D3748?style=flat-square&logo=prisma&logoColor=white" alt="Prisma badge">
+    <img src="https://img.shields.io/badge/TanStack_Query-FF4154?style=flat-square&logo=reactquery&logoColor=white" alt="TanStack Query badge">
+  </p>
+  <p>tRPC를 이용한 Next.js(App router) 보일러플레이트</p>
+</div>
 
-## Getting Started
+## 사용 방법
 
-First, run the development server:
+### 환경 변수 설정
+
+루트 디렉터리에 `.env` 파일 생성 후 DB에 해당하는 정보 입력
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+DATABASE_URL="postgresql://johndoe:randompassword@localhost:6543/mydb?schema=public?pgbouncer=true"
+DIRECT_URL="postgresql://johndoe:randompassword@localhost:5432/mydb?schema=public"
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 클라이언트 컴포넌트
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+`react-query`를 이용하여 사용
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+```tsx
+const usesQuery = trpc.test.getUsers.useQuery();
+```
 
-## Learn More
+### 서버 컴포넌트
 
-To learn more about Next.js, take a look at the following resources:
+`caller`를 이용하여 사용
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+```tsx
+const trpc = await createAsyncCaller();
+const users = await trpc.test.getUsers();
+```
